@@ -1186,6 +1186,13 @@ class FormBase(object):
         return get_csrf_token(self._get_session(), self.action)
 
     @property
+    def enctype(self):
+        for field in self.fields.itervalues():
+            if getattr(field, "multipart", None):
+                return 'multipart/form-data'
+        return 'application/x-www-form-urlencoded'
+
+    @property
     def is_valid(self):
         """True if the form is valid."""
         return not self.errors

@@ -625,6 +625,7 @@ class FormWidget(MappingWidget):
         if with_errors:
             body = self.default_display_errors() + body
         return html.form(body, action=self._field.form.action,
+                         enctype=self._field.form.enctype,
                          method=method, **attrs)
 
     def __call__(self, *args, **attrs):
