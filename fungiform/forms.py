@@ -481,7 +481,7 @@ class TextField(Field):
                 if message is None:
                     message = self.gettext(u'This field is required.')
                 raise ValidationError(message)
-        elif value:
+        if value:
             if self.min_length is not None and len(value) < self.min_length:
                 message = self.messages['too_short']
                 if message is None:
@@ -546,7 +546,10 @@ class DateTimeField(Field):
         value = _to_string(value)
         if not value:
             if self.required:
-                raise ValidationError(self.messages['required'])
+                message = self.messages['required']
+                if message is None:
+                    message = self.gettext(u'This field is required.')
+                raise ValidationError(message)
             return None
         try:
             return parse_datetime(value, tzinfo=self.tzinfo,
@@ -592,7 +595,10 @@ class DateField(Field):
         value = _to_string(value)
         if not value:
             if self.required:
-                raise ValidationError(self.messages['required'])
+                message = self.messages['required']
+                if message is None:
+                    message = self.gettext(u'This field is required.')
+                raise ValidationError(message)
             return None
         try:
             return parse_date(value, date_formats=self.date_formats)
